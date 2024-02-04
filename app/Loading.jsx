@@ -1,7 +1,7 @@
-import React from 'react'
+import React from "react";
 
 export default function Loading() {
   return (
-    <div className='font-semibold text-2xl text-[#035d9a]'>...Loading</div>
-  )
+    <div className="border-gray-300 h-20 w-20 animate-spin rounded-full border-8 border-t-blue-600 m24"></div>
+  );
 }

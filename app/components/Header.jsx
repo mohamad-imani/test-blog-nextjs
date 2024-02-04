@@ -104,14 +104,51 @@ export default function Header() {
           بلاگ{" "}
         </Link>
       </div>
+
       <nav
         ref={ref}
-        className={` transition-all duration-300 ease-in-out  h-[1400px] bg-sky-50 rounded-md  absolute right-0 z-[60] ${
-          isOpen ? "w-1/2" : "w-0"
+        className={` transition-all duration-300 ease-in-out p-3 bg-white  fixed right-0 top-0 z-[60] ${
+          isOpen
+            ? "w-1/2 h-screen opacity-100 visible"
+            : "w-0 h-0 opacity-0 invisible"
         }`}
       >
-        <h1>TEST</h1>
+        <ul className="transition-all duration-300 ease-in-out flex flex-col justify-center items-center space-y-4 ">
+          <li>
+            <Link
+              className="text-sky-800 py-1 px-2 transition-all duration-300  "
+              href={"https://vahidalvandi.ir"}
+            >
+              صفحه اصلی
+            </Link>
+          </li>
+          <span className="w-full h-[1px] bg-sky-800"></span>
+          <li>
+            <Link
+              className="text-sky-800 py-1 px-2 transition-all duration-300  "
+              href={
+                "https://vahidalvandi.ir/%d8%af%d8%b1%d8%a8%d8%a7%d8%b1%d9%87-%d9%85%d9%86/"
+              }
+            >
+              درباره من
+            </Link>
+          </li>
+          <span className="w-full h-[1px] bg-sky-800"></span>
+
+          <li>
+            <Link
+              className="text-sky-800 py-1 px-2 transition-all duration-300  "
+              href={
+                "https://vahidalvandi.ir/category/%d8%a2%d9%85%d9%88%d8%b2%d8%b4/"
+              }
+            >
+              بلاگ
+            </Link>
+          </li>
+          <span className="w-full h-[1px] bg-sky-800"></span>
+        </ul>
       </nav>
+
       <div
         className={`fixed z-40 inset-0 transition-opacity duration-300 ease-in-out ${
           isOpen ? "bg-black opacity-50 " : "opacity-0 pointer-events-none"
