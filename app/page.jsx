@@ -1,83 +1,22 @@
 "use client";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import Loading from "./Loading";
 import Header from "./components/Header";
 import Box from "./components/Box";
 import Footer from "./components/Footer";
 import { FaSearch } from "react-icons/fa";
+import { usePosts } from "./components/usePosts";
+import vector from "../public/blog-vector.svg";
+import secondVector from "../public/blog-vector-2.svg";
+import Image from "next/image";
 export default function Home({ pageProps }) {
-  const [allPosts, setAllPosts] = useState([]);
-  const [posts, setPosts] = useState([]);
-  const [id, setId] = useState("");
-  const [error, setError] = useState("");
-  const [loadingStates, setLoadingStates] = useState({});
-
-  useEffect(() => {
-    async function getPosts() {
-      const res = await fetch("https://vahidalvandi.ir/wp-json/wp/v2/posts");
-      const data = await res.json();
-
-      const newLoadingStates = data.reduce((acc, post) => {
-        acc[post.id] = true;
-        return acc;
-      }, {});
-
-      setLoadingStates(newLoadingStates);
-      setAllPosts(data);
-      setTimeout(() => {
-        const updatedLoadingStates = { ...newLoadingStates };
-        for (let id in updatedLoadingStates) {
-          updatedLoadingStates[id] = false;
-        }
-        setLoadingStates(updatedLoadingStates);
-      }, 1000);
-    }
-    getPosts();
-  }, []);
-
-  useEffect(() => {
-    async function getPostById() {
-      try {
-        if (id) {
-          const res = await fetch(
-            `https://vahidalvandi.ir/wp-json/wp/v2/posts/${id}`
-          );
-          if (!res.ok) throw new Error("Wrong ID");
-          const data = await res.json();
-          setPosts([data]);
-        } else {
-          setPosts([]);
-        }
-      } catch (err) {
-        console.error(err.message);
-        setError(err.message);
-      }
-    }
-    getPostById();
-    return () => {
-      setError("");
-    };
-  }, [id]);
-  function handleSubmit(e) {
-    e.preventDefault();
-    setId(e.target.querySelector("input").value);
-  }
-  function ErrorMessage({ message }) {
-    return (
-      <p>
-        <span>⛔ </span>
-
-        {message}
-      </p>
-    );
-  }
+  const { posts, allPosts, error, loadingStates } = usePosts();
 
   return (
-    <div className="h-full bg-gradient-to-r from-blue-100 to-indigo-100 min-h-screen flex flex-col">
+    <div className=" bg-[url('https://i.postimg.cc/wxyDkPSD/wp.jpg')] h-full bg-no-repeat bg-cover bg-fixed bg-center  min-h-screen flex flex-col">
       <Header />
 
-      <main className="flex flex-col flex-grow 2xl:flex-row px-5 justify-center mt-10 items-center 2xl:items-start gap-y-5">
+      <main className="backdrop-filter  backdrop-blur-md flex flex-col flex-grow 2xl:flex-row px-5 justify-center mt-10  items-center 2xl:items-start gap-y-5">
         <div className=" relative sm:hidden mb-4 flex justify-center items-center text-center p-1 gap-x-2">
           <input
             className="absolute text-[#7c7c7c] py-1 px-3 rounded-full transition-all duration-300 focus:border-black outline-none border-sky-600 border "
@@ -88,7 +27,7 @@ export default function Home({ pageProps }) {
             <FaSearch color={"rgb(2 132 199)"} />
           </button>
         </div>
-        <div className="grid gap-y-10 gap-x-5 mx-auto xl:grid-cols-3 ">
+        <div className="grid gap-y-10 gap-x-5 mx-auto xl:grid-cols-3 lg:grid-cols-2 ">
           {allPosts.map((post) => (
             <Box
               key={post.id}
@@ -107,7 +46,7 @@ export default function Home({ pageProps }) {
             مشاهده همه مطالب
           </Link>
         </div>
-        <div className=" h-max flex flex-col gap-y-4 bg-white p-3 w-72 border shadow-sm shadow-black/60 rounded-md ">
+        <div className=" h-max flex flex-col gap-y-4 bg-white p-3 w-72 border shadow-md shadow-black/60 rounded-md  ">
           <p>
             از ۱۷ سالگی یا همان سال ۲۰۰۶ برنامه نویسی را شروع کردم و خداراشکر
             همچنان آن را ادامه می دهم علاقه مند به انتقال تجربیاتم به دیگران
@@ -124,7 +63,10 @@ export default function Home({ pageProps }) {
           </Link>
         </div>
       </main>
-
+      <div className="absolute left-4 top-[500px] hidden 2xl:flex flex-col space-y-96">
+        <Image alt="vector" src={vector} width={400} height={400} />
+        <Image alt="vector2" src={secondVector} width={400} height={400} />
+      </div>
       <Footer />
     </div>
   );

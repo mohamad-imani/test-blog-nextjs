@@ -54,7 +54,7 @@ export default function Box({
                 className="rounded-t-md "
                 src={src}
                 width={640}
-                height={640}
+                height={600}
               />
             )}
           </div>
